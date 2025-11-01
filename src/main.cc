@@ -11,6 +11,17 @@ color ray_color(const ray &r)
     return (1.0 - a) * color(1.0, 1.0, 1.0) + a * color(0.5, 0.7, 1.0);
 }
 
+bool hit_sphere(const point3 &center, double radius, const ray &r)
+{
+
+    vec3 oc = center - r.origin();
+    auto a = dot(r.direction(), r.direction());
+    auto b = -2.0 * dot(r.direction(), oc);
+    auto c = dot(oc, oc) - radius * radius;
+    auto discrimant = b * b - 4 * a * c;
+    return (discrimant >= 0);
+}
+
 int main()
 {
 
@@ -54,7 +65,7 @@ int main()
 
             std::clog << "\rPixel (" << i << ',' << j << ") = "
                       << pixel_center << ' '
-                      << ray_direction<< "\n";
+                      << ray_direction << "\n";
 
             ray r(camera_center, ray_direction);
 
